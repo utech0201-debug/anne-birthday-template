@@ -136,8 +136,8 @@ class AudioManager {
     }
     setBgVolume(vol: number) {
         const clamped = Math.max(0, Math.min(1, vol));
-        this.muted = clamped === 0;
-        if (this.bgMusic)
+        if (clamped === 0) this.muted = true;
+        if (this.bgMusic && !this.muted)
             this.bgMusic.volume = clamped;
     }
     setMuted(muted: boolean) {
