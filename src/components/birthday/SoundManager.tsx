@@ -94,7 +94,15 @@ class AudioManager {
             this.fallbackTimer = null;
         }
         this.fallbackPlaying = false;
-        if (this.fallbackContext?.state === "running") void this.fallbackContext.suspend();
+
+        // Discard the whole context, not just suspend it. Suspending leaves
+        // already-scheduled oscillators queued; resuming later can replay old
+        // notes over the newly scheduled tune and make mute/unmute glitch.
+        const context = this.fallbackContext;
+        this.fallbackContext = null;
+        if (context && context.state !== "closed") {
+            void context.close().catch(() => {});
+        }
     }
 
     private startFallbackBirthdayTune() {
@@ -181,9 +189,12 @@ class AudioManager {
         }
 
         if (muted) {
-            // Stop scheduled fallback notes while muted, but remember which
-            // music source should be resumed when sound is turned back on.
+            // Stop background fallback notes and any effects already playing.
             this.stopFallbackBirthdayTune();
+            Object.values(this.effectPools).flat().forEach((audio) => {
+                audio.pause();
+                try { audio.currentTime = 0; } catch { /* Ignore reset errors */ }
+            });
             return;
         }
 
