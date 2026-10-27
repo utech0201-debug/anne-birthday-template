@@ -25,6 +25,17 @@ class AudioManager {
     private fallbackTimer: ReturnType<typeof setTimeout> | null = null;
     private fallbackPlaying = false;
 
+    pauseMusic() {
+        this.started = false;
+        this.bgMusic?.pause();
+        if (this.fallbackTimer) {
+            clearTimeout(this.fallbackTimer);
+            this.fallbackTimer = null;
+        }
+        this.fallbackPlaying = false;
+        if (this.fallbackContext?.state === "running") void this.fallbackContext.suspend();
+    }
+
     start() {
         if (this.started) {
             if (this.bgMusic?.paused) {
@@ -218,6 +229,9 @@ export const useSoundManager = () => {
     const setMuted = useCallback((muted: boolean) => {
         managerRef.current.setMuted(muted);
     }, []);
+    const pauseMusic = useCallback(() => {
+        managerRef.current.pauseMusic();
+    }, []);
     return useMemo(() => ({
         startMusic,
         playType,
@@ -228,5 +242,6 @@ export const useSoundManager = () => {
         fadeOut,
         setBgVolume,
         setMuted,
-    }), [startMusic, playType, playWhoosh, playReveal, playPop, playBoom, fadeOut, setBgVolume, setMuted]);
+        pauseMusic,
+    }), [startMusic, playType, playWhoosh, playReveal, playPop, playBoom, fadeOut, setBgVolume, setMuted, pauseMusic]);
 };
