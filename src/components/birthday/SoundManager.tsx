@@ -40,15 +40,24 @@ class AudioManager {
 
     start() {
         this.started = true;
-        if (this.fallbackContext?.state === "suspended" && this.fallbackPlaying) {
-            void this.fallbackContext.resume();
+        if (this.muted) return;
+
+        // If the remote MP3 previously failed, retrying the same Audio element
+        // can silently do nothing. Restart the local fallback tune instead.
+        if (this.bgMusic?.error) {
+            this.startFallbackBirthdayTune();
+            return;
         }
+
         if (this.bgMusic) {
-            if (this.bgMusic.paused && this.bgMusic.error === null) {
-                this.bgMusic.play().catch(() => this.startFallbackBirthdayTune());
+            if (this.bgMusic.paused) {
+                this.bgMusic.play()
+                    .then(() => this.stopFallbackBirthdayTune())
+                    .catch(() => this.startFallbackBirthdayTune());
             }
             return;
         }
+
         this.playBgMusic();
     }
     private playBgMusic() {
