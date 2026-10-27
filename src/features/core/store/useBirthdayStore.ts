@@ -55,6 +55,7 @@ interface BirthdayStore {
     getAnimationPacing: () => 'slow' | 'fast' | 'moderate';
     getMood: () => 'romantic' | 'energetic' | 'warm';
     getLanguage: () => 'en' | 'hi' | 'bn' | 'fr' | string;
+    setLanguage: (language: 'en' | 'fr') => void;
 }
 const parseEnvString = (...values: unknown[]): string => {
     for (const value of values) {
@@ -324,5 +325,6 @@ export const useBirthdayStore = create<BirthdayStore>((set, get) => ({
     },
     getLanguage: () => {
         return get().config.language || 'en';
-    }
+    },
+    setLanguage: (language) => set((state) => ({ config: { ...state.config, language } })),
 }));
