@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef } from "react";
 import { AUDIO_ASSETS } from "@/config/birthday";
 const AUDIO_URLS = {
-    bgMusic: AUDIO_ASSETS.bgmUrl || "https://cdn.pixabay.com/audio/2024/09/03/audio_73147814c8.mp3",
+    bgMusic: AUDIO_ASSETS.bgmUrl || "https://www.orangefreesounds.com/wp-content/uploads/2016/08/Happy-birthday-instrumental.mp3",
     typeClick: "https://www.soundjay.com/communication/sounds/typing-on-computer-keyboard-01.mp3",
     whoosh: "https://cdn.pixabay.com/audio/2022/03/24/audio_1c5e3e06.mp3",
     reveal: "https://cdn.pixabay.com/audio/2021/08/04/audio_bb630cc098.mp3",
