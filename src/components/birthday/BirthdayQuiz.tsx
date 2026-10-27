@@ -49,7 +49,7 @@ export const BirthdayQuiz = () => {
             if (relationship === 'partner') {
                 base.push({
                     q: `Qui aime ${displayName} plus que tout dans l'univers ?`,
-                    options: ["Le chat", "Le voisin", "La personne qui a créé ce site ❤️", "Un extraterrestre"],
+                    options: ["Le chat 🐱", "Le voisin 🏡", "Oscar, son amoureux, qui a créé cette surprise juste pour elle ❤️", "Un extraterrestre 👽"],
                     correct: 2,
                     reason: "La personne qui a préparé cette surprise l'aime jusqu'aux confins de la galaxie !"
                 });
@@ -189,7 +189,7 @@ export const BirthdayQuiz = () => {
         if (relationship === 'partner') {
             base.push({
                 q: `Who loves ${displayName} more than anything in the entire universe?`,
-                options: ["The cat", "The neighbor", "The person who sent this ❤️", "An alien"],
+                options: ["The cat 🐱", "The neighbor 🏡", "Oscar, her boyfriend, who created this surprise just for her ❤️", "An alien 👽"],
                 correct: 2,
                 reason: "The sender loves them to infinity and back!"
             });
