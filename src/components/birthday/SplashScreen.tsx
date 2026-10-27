@@ -12,7 +12,7 @@ interface SplashScreenProps {
 export const SplashScreen = ({ onStart }: SplashScreenProps) => {
     const [tapped, setTapped] = useState(false);
     const { startMusic, playPop } = useSoundManager();
-    const { t } = useTranslation();
+    const { t, isFrench } = useTranslation();
 
     const handleTap = () => {
         if (tapped) return;
@@ -76,7 +76,7 @@ export const SplashScreen = ({ onStart }: SplashScreenProps) => {
                         {t('splash.specialSurpriseAwaits')}
                     </span>
                     <span className="font-script text-3xl sm:text-5xl font-bold italic text-gradient-romantic text-glow-rose inline-block animate-subtle-float">
-                        ✨ Made with Love ✨
+                        ✨ {isFrench ? "Créé avec amour" : "Made with Love"} ✨
                     </span>
                 </h2>
 
