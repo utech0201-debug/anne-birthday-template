@@ -20,7 +20,6 @@ import { Car, Trophy, Share2 } from "lucide-react";
 import { BalloonPopGame } from "./BalloonPopGame";
 import { EnvelopeLetterScene } from "./EnvelopeLetterScene";
 import { WishDeck } from "./WishDeck";
-import { SoundToggle } from "./SoundToggle";
 import { getTemplateEmojiKit, normalizeToEmoji } from "@/config/emojiKits";
 
 export const MainBirthday = () => {
@@ -154,7 +153,6 @@ export const MainBirthday = () => {
     const sparkleCount = isMobile ? 4 : 6;
     const balloonCount = isMobile ? 4 : 6;
     return (<div onMouseMove={shouldAnimate ? handleMouseMove : undefined} className={`min-h-screen transition-opacity duration-1000 w-full max-w-[100vw] overflow-x-hidden ${visible ? "opacity-100" : "opacity-0"} ${megaSurprise ? "animate-screen-shake" : ""}`} style={{ background: 'transparent' }}>
-      <SoundToggle />
       <Balloons count={balloonCount}/>
       <Sparkles count={sparkleCount}/>
 
