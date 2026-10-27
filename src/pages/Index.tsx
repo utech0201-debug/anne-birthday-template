@@ -16,6 +16,7 @@ import { EmojiCursorTrail } from "@/components/birthday/EmojiCursorTrail";
 import { PremiumFireworks } from "@/components/birthday/PremiumFireworks";
 import { isPasswordRequired } from "@/utils/password";
 import { useTranslation } from "@/i18n";
+import { SoundToggle } from "@/components/birthday/SoundToggle";
 
 type Phase = "splash" | "unlock" | "intro" | "main";
 
@@ -57,6 +58,8 @@ const Index = () => {
 
       {/* Vignette overlay */}
       <div className="vignette"/>
+
+      {phase !== "splash" && <SoundToggle />}
 
       {/* Site-wide language switch shared by every scene and section. */}
       <button
