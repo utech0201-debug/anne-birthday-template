@@ -1,13 +1,13 @@
 {
-  "name": "Birthday Bloom",
-  "short_name": "Birthday Bloom",
-  "description": "A magical cinematic birthday celebration web application with 3D cake cutting, fireworks, and emotional storytelling.",
+  "name": "Anne’s Birthday Surprise",
+  "short_name": "Anne’s Birthday",
+  "description": "A romantic bilingual birthday surprise for Anne’s 19th birthday, made with love by Oscar.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "any",
-  "theme_color": "#1a0515",
-  "background_color": "#1a0515",
-  "lang": "en",
+  "theme_color": "#ff4d8d",
+  "background_color": "#fff5f8",
+  "lang": "fr",
   "dir": "auto",
   "categories": [
     "entertainment",
@@ -73,7 +73,7 @@
       "sizes": "1200x630",
       "type": "image/jpeg",
       "form_factor": "wide",
-      "label": "Birthday Bloom Celebration Preview"
+      "label": "Anne’s Birthday Surprise"
     }
   ]
 }
