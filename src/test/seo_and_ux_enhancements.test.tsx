@@ -117,64 +117,30 @@ describe("SEO, UX, and PWA Enhancements Test Suite", () => {
     const htmlContent = fs.readFileSync(indexPath, "utf-8");
 
     it("contains canonical link tag", () => {
-      expect(htmlContent).toContain('<link rel="canonical" href="https://birthday-bloom.vercel.app/" />');
+      expect(htmlContent).toContain('<link rel="canonical" href="https://anne-birthday-surprise.vercel.app/" />');
     });
 
     it("contains OpenGraph locale and alternate language tags", () => {
-      expect(htmlContent).toContain('<meta property="og:locale" content="en_US" />');
-      expect(htmlContent).toContain('<meta property="og:locale:alternate" content="hi_IN" />');
-      expect(htmlContent).toContain('<meta property="og:locale:alternate" content="bn_BD" />');
-      expect(htmlContent).toContain('<meta property="og:locale:alternate" content="fr_FR" />');
+      expect(htmlContent).toContain('<meta property="og:locale" content="fr_FR" />');
+      expect(htmlContent).toContain('<meta property="og:site_name" content="Anne’s Birthday Surprise" />');
+      expect(htmlContent).toContain('Joyeux anniversaire, Anne');
     });
 
-    it("contains Twitter creator and image alt tags", () => {
-      expect(htmlContent).toContain('<meta name="twitter:creator" content="@NSGAMMING699" />');
-      expect(htmlContent).toContain('<meta name="twitter:image:alt" content="Birthday Bloom Celebration Preview" />');
+    it("contains personalized Twitter metadata without the original author's social handle", () => {
+      expect(htmlContent).toContain('<meta name="twitter:title" content="Joyeux anniversaire, Anne ❤️" />');
+      expect(htmlContent).toContain('name="twitter:description"');
+      expect(htmlContent).not.toContain('name="twitter:creator" content="@NSGAMMING699"');
     });
 
-    it("contains comprehensive and valid JSON-LD structured data with WebSite, WebApplication, FAQPage, HowTo, and BreadcrumbList schemas", () => {
-      const jsonLdMatch = htmlContent.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
-      expect(jsonLdMatch).not.toBeNull();
-      const rawJson = jsonLdMatch![1].trim();
-      const parsed = JSON.parse(rawJson);
-
-      expect(parsed["@context"]).toBe("https://schema.org");
-      expect(Array.isArray(parsed["@graph"])).toBe(true);
-
-      const webSite = parsed["@graph"].find((item: { "@type": string }) => item["@type"] === "WebSite");
-      expect(webSite).toBeDefined();
-      expect(webSite.url).toBe("https://birthday-bloom.vercel.app/");
-      expect(webSite.inLanguage).toContain("en");
-      expect(webSite.inLanguage).toContain("bn");
-      expect(webSite.inLanguage).toContain("hi");
-      expect(webSite.inLanguage).toContain("fr");
-
-      const webApp = parsed["@graph"].find((item: { "@type": string }) => item["@type"] === "WebApplication");
-      expect(webApp).toBeDefined();
-      expect(webApp.name).toBe("Birthday Bloom");
-      expect(webApp.genre).toBe("Celebration & Entertainment");
-      expect(webApp.browserRequirements).toBeDefined();
-      expect(webApp.featureList.length).toBeGreaterThan(0);
-      expect(webApp.inLanguage).toContain("en");
-      expect(webApp.offers).toBeDefined();
-      expect(webApp.author).toBeDefined();
-
-      const faqPage = parsed["@graph"].find((item: { "@type": string }) => item["@type"] === "FAQPage");
-      expect(faqPage).toBeDefined();
-      expect(Array.isArray(faqPage.mainEntity)).toBe(true);
-      expect(faqPage.mainEntity.length).toBeGreaterThanOrEqual(5);
-
-      const howTo = parsed["@graph"].find((item: { "@type": string }) => item["@type"] === "HowTo");
-      expect(howTo).toBeDefined();
-      expect(Array.isArray(howTo.step)).toBe(true);
-
-      const breadcrumbs = parsed["@graph"].find((item: { "@type": string }) => item["@type"] === "BreadcrumbList");
-      expect(breadcrumbs).toBeDefined();
+    it("does not publish stale structured data for the original template deployment", () => {
+      expect(htmlContent).not.toContain('https://birthday-bloom.vercel.app/');
+      expect(htmlContent).not.toContain('"name": "Birthday Bloom"');
+      expect(htmlContent).toContain('Anne’s Birthday Surprise');
     });
 
     it("contains semantic crawlable noscript fallback", () => {
       expect(htmlContent).toContain("<noscript>");
-      expect(htmlContent).toContain("<h1>Birthday Bloom");
+      expect(htmlContent).toContain("<h1>Joyeux anniversaire, Anne");
       expect(htmlContent).toContain("3D Interactive Cake Cutting");
     });
   });
@@ -185,8 +151,10 @@ describe("SEO, UX, and PWA Enhancements Test Suite", () => {
     const parsedManifest = JSON.parse(manifestContent);
 
     it("harmonizes theme_color, background_color, categories, and shortcuts", () => {
-      expect(parsedManifest.theme_color).toBe("#1a0515");
-      expect(parsedManifest.background_color).toBe("#1a0515");
+      expect(parsedManifest.name).toBe("Anne’s Birthday Surprise");
+      expect(parsedManifest.theme_color).toBe("#ff4d8d");
+      expect(parsedManifest.background_color).toBe("#fff5f8");
+      expect(parsedManifest.lang).toBe("fr");
       expect(parsedManifest.categories).toContain("entertainment");
       expect(Array.isArray(parsedManifest.shortcuts)).toBe(true);
       expect(parsedManifest.shortcuts.length).toBeGreaterThanOrEqual(3);
@@ -202,7 +170,7 @@ describe("SEO, UX, and PWA Enhancements Test Suite", () => {
       expect(robotsContent).toContain("User-agent: GPTBot");
       expect(robotsContent).toContain("User-agent: ClaudeBot");
       expect(robotsContent).toContain("User-agent: PerplexityBot");
-      expect(robotsContent).toContain("Sitemap: https://birthday-bloom.vercel.app/sitemap.xml");
+      expect(robotsContent).toContain("Sitemap: https://anne-birthday-surprise.vercel.app/sitemap.xml");
     });
 
     const sitemapPath = path.resolve(process.cwd(), "public/sitemap.xml");
