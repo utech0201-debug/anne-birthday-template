@@ -26,22 +26,22 @@ export const BirthdayQuiz = () => {
         if (isFrench) {
             const base: Question[] = [
                 {
-                    q: `Qui est incontestablement la personne la plus légendaire née ce jour-là ?`,
-                    options: ["Albert Einstein", "Une célébrité", displayName, "Un manchot"],
+                    q: `Qui mérite d’être célébrée comme une reine en ce jour si spécial ?`,
+                    options: ["Albert Einstein 🧠", "Une star de cinéma 🎬", `${displayName}, notre reine du jour 👑`, "Un manchot en smoking 🐧"],
                     correct: 2,
                     reason: `Évidemment ! C'est nul autre que ${displayName} ! Personne ne lui arrive à la cheville.`
                 },
                 {
-                    q: `Quelle est l'ambiance de ${displayName} aujourd'hui ?`,
-                    options: ["Endormi(e)", "Affamé(e)", "Inarrêtable & Légendaire 🔥", "Blasé(e)"],
+                    q: `Quelle énergie ${displayName} doit-elle apporter à cette nouvelle année de sa vie ?`,
+                    options: ["Mode sieste 😴", "À la recherche de gâteau 🍰", "Rayonnante, heureuse et inarrêtable ✨", "Mode « laissez-moi tranquille » 😅"],
                     correct: 2,
                     reason: "C'est son anniversaire ! Cette journée est faite pour briller comme une star."
                 }
             ];
             if (interests?.includes('car')) {
                 base.push({
-                    q: `Si ${displayName} pouvait conduire n'importe quel bolide aujourd'hui, ce serait :`,
-                    options: ["Un tricycle", "Une supercar rugissante 🏎️", "Un bus", "Une trottinette"],
+                    q: `Pour une virée de rêve, quelle voiture choisirait ${displayName} ?`,
+                    options: ["Un tricycle 🚲", "Une supercar de rêve 🏎️", "Un bus scolaire 🚌", "Une trottinette 🛴"],
                     correct: 1,
                     reason: "Parce que les légendes carburent à la pure vitesse !"
                 });
@@ -57,14 +57,14 @@ export const BirthdayQuiz = () => {
             if (interests?.includes('coding')) {
                 base.push({
                     q: `Quelle est la plus grande terreur de ${displayName} ?`,
-                    options: ["Les araignées", "Le vertige", "Des bugs en prod un vendredi à 17h 🐞", "La panne de café"],
+                    options: ["Croiser une araignée 🕷️", "Être tout en haut d’un immeuble 😵", "Un bug en production le vendredi soir 🐞", "Plus de café ☕"],
                     correct: 2,
                     reason: "Les vrais développeurs le savent… les bugs en production un vendredi, c'est un cauchemar !"
                 });
             }
             base.push({
-                q: `Si ${displayName} avait un nom de super-héros, ce serait :`,
-                options: ["Capitaine Sieste", "Le Procrastinateur", "Super Légende Star d'Anniversaire 🦸‍♂️", "Iron Café"],
+                q: `Quel serait le nom de super-héroïne parfait pour ${displayName} ?`,
+                options: ["Capitaine Sieste 😴", "Madame « cinq minutes encore » 😂", "Super Anne, reine des cœurs 💖🦸‍♀️", "Iron Croissant 🥐"],
                 correct: 2,
                 reason: "Aujourd'hui, c'est le super-héros ou la super-héroïne dont le monde entier a besoin !"
             });
@@ -166,22 +166,22 @@ export const BirthdayQuiz = () => {
         }
         const base: Question[] = [
             {
-                q: `Who is undeniably the most legendary person born on this day?`,
-                options: ["Albert Einstein", "Some Celebrity", displayName, "A Penguin"],
+                q: `Who deserves to be celebrated like a queen on this special day?`,
+                options: ["Albert Einstein 🧠", "A movie star 🎬", `${displayName}, our birthday queen 👑`, "A penguin in a tuxedo 🐧"],
                 correct: 2,
                 reason: `Obviously! It's none other than ${displayName}! No one else comes close.`
             },
             {
-                q: `What is ${displayName}'s vibe today?`,
-                options: ["Sleepy", "Hungry", "Unstoppable & Legendary", "Bored"],
+                q: `What energy should ${displayName} bring into this new year of her life?`,
+                options: ["Nap mode 😴", "Looking for cake 🍰", "Glowing, happy, and unstoppable ✨", "Please do not disturb 😅"],
                 correct: 2,
                 reason: "It's their birthday! They are operating in full God-mode."
             }
         ];
         if (interests?.includes('car')) {
             base.push({
-                q: `If ${displayName} could drive anything today, what would it be?`,
-                options: ["A tricycle", "A roaring supercar 🏎️", "A bus", "A scooter"],
+                q: `For a dream road trip, which car would ${displayName} choose?`,
+                options: ["A tricycle 🚲", "A dream supercar 🏎️", "A school bus 🚌", "A scooter 🛴"],
                 correct: 1,
                 reason: "Because legends need speed, pure and simple!"
             });
@@ -197,14 +197,14 @@ export const BirthdayQuiz = () => {
         if (interests?.includes('coding')) {
             base.push({
                 q: `What is ${displayName}'s biggest fear?`,
-                options: ["Spiders", "Heights", "Bugs in production on Friday 🐞", "No coffee"],
+                options: ["Meeting a spider 🕷️", "Standing on a skyscraper 😵", "A production bug on Friday evening 🐞", "No coffee left ☕"],
                 correct: 2,
                 reason: "Real coders know... production bugs on Friday are pure nightmare fuel!"
             });
         }
         base.push({
-            q: `If ${displayName} had a superpower, what would their hero name be?`,
-            options: ["Captain Sleep", "The Procrastinator", "Super Legend Birthday Star 🦸‍♂️", "Iron Coffee"],
+            q: `What would be the perfect superhero name for ${displayName}?`,
+            options: ["Captain Nap 😴", "Miss ‘Five More Minutes’ 😂", "Super Anne, Queen of Hearts 💖🦸‍♀️", "Iron Croissant 🥐"],
             correct: 2,
             reason: "Today, they are the hero this world needs!"
         });
