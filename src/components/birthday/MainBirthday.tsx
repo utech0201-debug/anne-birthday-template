@@ -348,16 +348,6 @@ export const MainBirthday = () => {
       {config.showFinalSurprise && <FinalSurprise />}
 
       <footer className="relative z-20 text-center py-20 bg-gradient-to-t from-black/60 to-transparent w-full">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <button
-            type="button"
-            onClick={() => setShareOpen(true)}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-white/90 text-xs sm:text-sm font-semibold tracking-wider transition-all duration-300 shadow-xl hover:scale-105"
-          >
-            <Share2 size={16} className="text-primary" />
-            <span>{isFrench ? "Partager ou Créer une Surprise ✨" : isBengali ? "সারপ্রাইজ শেয়ার বা নতুন তৈরি করুন ✨" : isHindi ? "सरप्राइज शेयर करें या नया बनाएं ✨" : "Share Surprise or Create Yours ✨"}</span>
-          </button>
-        </div>
         <p className="text-white/30 text-sm tracking-[0.15em]">
           {isFrench ? "Avec amour de" : isBengali ? "ভালোবাসায়" : isHindi ? "प्यार से" : "With love from"}{' '}
           <span className="text-white/50 font-semibold">{senderName || 'Someone Special'}</span>
