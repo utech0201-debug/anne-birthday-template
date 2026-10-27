@@ -1,55 +1,69 @@
 import { useState, useCallback } from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX, Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
 import { useSoundManager } from "./SoundManager";
 import { useTranslation } from "@/i18n";
 
 export const SoundToggle = () => {
     const [isMuted, setIsMuted] = useState(false);
-    const { setBgVolume, setMuted } = useSoundManager();
+    const [isPlaying, setIsPlaying] = useState(true);
+    const { startMusic, pauseMusic, setMuted } = useSoundManager();
     const { isFrench, isBengali, isHindi } = useTranslation();
 
-    const handleToggle = useCallback(() => {
+    const handlePlaybackToggle = useCallback(() => {
+        if (isPlaying) {
+            pauseMusic();
+            setIsPlaying(false);
+        } else {
+            startMusic();
+            setIsPlaying(true);
+        }
+    }, [isPlaying, pauseMusic, startMusic]);
+
+    const handleMuteToggle = useCallback(() => {
         setIsMuted((prev) => {
             const next = !prev;
-            setBgVolume(next ? 0 : 0.25);
-            setMuted?.(next);
+            setMuted(next);
             return next;
         });
-    }, [setBgVolume, setMuted]);
+    }, [setMuted]);
 
-    const label = isMuted
-        ? isFrench
-            ? "Activer le son"
-            : isBengali
-            ? "শব্দ চালু করুন"
-            : isHindi
-            ? "आवाज़ चालू करें"
-            : "Unmute Audio"
-        : isFrench
-        ? "Couper le son"
-        : isBengali
-        ? "শব্দ বন্ধ করুন"
-        : isHindi
-        ? "आवाज़ बंद करें"
-        : "Mute Audio";
+    const playbackLabel = isPlaying
+        ? isFrench ? "Mettre la musique en pause" : isBengali ? "গান থামান" : isHindi ? "संगीत रोकें" : "Pause music"
+        : isFrench ? "Reprendre la musique" : isBengali ? "গান চালু করুন" : isHindi ? "संगीत चलाएँ" : "Play music";
+
+    const muteLabel = isMuted
+        ? isFrench ? "Activer le son" : isBengali ? "শব্দ চালু করুন" : isHindi ? "आवाज़ चालू करें" : "Unmute audio"
+        : isFrench ? "Couper le son" : isBengali ? "শব্দ বন্ধ করুন" : isHindi ? "आवाज़ बंद करें" : "Mute audio";
+
+    const buttonClass = "flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white shadow-xl backdrop-blur-xl transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-primary";
 
     return (
-        <motion.button
-            type="button"
-            role="button"
-            aria-label={label}
-            title={label}
-            onClick={handleToggle}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.92 }}
-            className="fixed top-6 right-6 z-40 p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-xl text-white shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-primary"
-        >
-            {isMuted ? (
-                <VolumeX size={18} className="text-white/60" />
-            ) : (
-                <Volume2 size={18} className="text-primary animate-pulse" />
-            )}
-        </motion.button>
+        <div className="fixed bottom-6 left-6 z-[90] flex items-center gap-2 rounded-full border border-white/10 bg-black/20 p-1.5 shadow-2xl backdrop-blur-xl">
+            <motion.button
+                type="button"
+                aria-label={playbackLabel}
+                aria-pressed={isPlaying}
+                title={playbackLabel}
+                onClick={handlePlaybackToggle}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.92 }}
+                className={buttonClass}
+            >
+                {isPlaying ? <Pause size={18} /> : <Play size={18} className="ml-0.5" />}
+            </motion.button>
+            <motion.button
+                type="button"
+                aria-label={muteLabel}
+                aria-pressed={isMuted}
+                title={muteLabel}
+                onClick={handleMuteToggle}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.92 }}
+                className={buttonClass}
+            >
+                {isMuted ? <VolumeX size={18} className="text-white/60" /> : <Volume2 size={18} className="text-primary" />}
+            </motion.button>
+        </div>
     );
 };
