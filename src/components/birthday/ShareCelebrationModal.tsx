@@ -188,7 +188,7 @@ export const ShareCelebrationModal: React.FC<ShareCelebrationModalProps> = ({ is
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close modal"
+            aria-label={isFrench ? "Fermer la fenêtre" : "Close modal"}
             className="absolute top-5 right-5 rounded-full p-2 text-white/50 hover:text-white hover:bg-white/10 transition-colors"
           >
             <X size={20} />
@@ -252,7 +252,7 @@ export const ShareCelebrationModal: React.FC<ShareCelebrationModalProps> = ({ is
                   type="text"
                   value={customName}
                   onChange={(e) => setCustomName(e.target.value)}
-                  placeholder="e.g. Sophia, Rahul, Ananya"
+                  placeholder={isFrench ? "Ex. : Anne, Sophie, Alex" : "e.g. Sophia, Rahul, Ananya"}
                   className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-white/30 text-sm focus:outline-none focus:border-primary transition-colors"
                 />
               </div>
@@ -267,17 +267,17 @@ export const ShareCelebrationModal: React.FC<ShareCelebrationModalProps> = ({ is
                     onChange={(e) => setCustomRel(e.target.value as RelationshipType)}
                     className="w-full px-3 py-2.5 rounded-xl bg-[#1a0515] border border-white/15 text-white text-xs sm:text-sm focus:outline-none focus:border-primary transition-colors"
                   >
-                    <option value="partner">Partner / Love 💖</option>
-                    <option value="friend">Best Friend / Bestie 🎉</option>
-                    <option value="brother">Brother 🤜🤛</option>
-                    <option value="sister">Sister 🌸</option>
-                    <option value="mother">Mother 💐</option>
-                    <option value="father">Father 👑</option>
-                    <option value="daughter">Daughter 🌟</option>
-                    <option value="son">Son 🚀</option>
-                    <option value="family">Family Warmth 🏡</option>
+                    <option value="partner">{isFrench ? "Partenaire / Amour 💖" : "Partner / Love 💖"}</option>
+                    <option value="friend">{isFrench ? "Meilleur(e) ami(e) 🎉" : "Best Friend / Bestie 🎉"}</option>
+                    <option value="brother">{isFrench ? "Frère 🤜🤛" : "Brother 🤜🤛"}</option>
+                    <option value="sister">{isFrench ? "Sœur 🌸" : "Sister 🌸"}</option>
+                    <option value="mother">{isFrench ? "Mère 💐" : "Mother 💐"}</option>
+                    <option value="father">{isFrench ? "Père 👑" : "Father 👑"}</option>
+                    <option value="daughter">{isFrench ? "Fille 🌟" : "Daughter 🌟"}</option>
+                    <option value="son">{isFrench ? "Fils 🚀" : "Son 🚀"}</option>
+                    <option value="family">{isFrench ? "Famille 🏡" : "Family Warmth 🏡"}</option>
                     <option value="mentor">Mentor / Guide 🏆</option>
-                    <option value="colleague">Colleague 💼</option>
+                    <option value="colleague">{isFrench ? "Collègue 💼" : "Colleague 💼"}</option>
                   </select>
                 </div>
 
@@ -306,7 +306,7 @@ export const ShareCelebrationModal: React.FC<ShareCelebrationModalProps> = ({ is
                   type="text"
                   value={customSender}
                   onChange={(e) => setCustomSender(e.target.value)}
-                  placeholder="e.g. Alex"
+                  placeholder={isFrench ? "Ex. : Oscar" : "e.g. Alex"}
                   className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-white/30 text-sm focus:outline-none focus:border-primary transition-colors"
                 />
               </div>
@@ -382,7 +382,7 @@ export const ShareCelebrationModal: React.FC<ShareCelebrationModalProps> = ({ is
               className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-black transition-all hover:brightness-110 active:scale-95"
             >
               {copied ? <Check size={14} /> : <Copy size={14} />}
-              {copied ? "Copied!" : "Copy"}
+              {copied ? (isFrench ? "Copié !" : "Copied!") : (isFrench ? "Copier" : "Copy")}
             </button>
           </div>
 
@@ -401,7 +401,7 @@ export const ShareCelebrationModal: React.FC<ShareCelebrationModalProps> = ({ is
           {/* Footer Branding */}
           <div className="mt-6 text-center text-[10px] text-white/40 tracking-wider uppercase flex items-center justify-center gap-1.5">
             <Heart size={10} className="text-primary fill-primary" />
-            <span>Birthday Bloom • Crafted with Love</span>
+            <span>{isFrench ? "Birthday Bloom • Créé avec amour" : "Birthday Bloom • Crafted with Love"}</span>
             <Globe size={10} className="text-white/40" />
           </div>
         </motion.div>
