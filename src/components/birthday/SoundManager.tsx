@@ -24,6 +24,7 @@ class AudioManager {
     private fallbackContext: AudioContext | null = null;
     private fallbackTimer: ReturnType<typeof setTimeout> | null = null;
     private fallbackPlaying = false;
+    private usingFallback = false;
 
     pauseMusic() {
         this.started = false;
@@ -66,14 +67,19 @@ class AudioManager {
                 this.bgMusic = new Audio(AUDIO_URLS.bgMusic);
                 this.bgMusic.loop = true;
                 this.bgMusic.preload = "auto";
-                this.bgMusic.onerror = () => this.startFallbackBirthdayTune();
+                this.bgMusic.onerror = () => {
+                    this.usingFallback = true;
+                    this.startFallbackBirthdayTune();
+                };
             }
             this.bgMusic.volume = this.muted ? 0 : 1.0;
             this.bgMusic.play().then(() => {
-                // If the external track starts successfully, stop any fallback tune.
+                // The external track is active; stop and forget the fallback tune.
+                this.usingFallback = false;
                 this.stopFallbackBirthdayTune();
             }).catch(() => {
                 // Use the built-in tune only when the external track cannot play.
+                this.usingFallback = true;
                 this.startFallbackBirthdayTune();
             });
         }
@@ -102,6 +108,7 @@ class AudioManager {
             const ctx = this.fallbackContext;
             if (ctx.state === "suspended") void ctx.resume();
 
+            this.usingFallback = true;
             this.fallbackPlaying = true;
             // Traditional "Happy Birthday" melody, synthesized locally as a fallback.
             const notes: Array<[number, number]> = [
@@ -168,11 +175,32 @@ class AudioManager {
     }
     setMuted(muted: boolean) {
         this.muted = muted;
-        if (this.bgMusic) this.bgMusic.volume = muted ? 0 : 1.0;
+
+        if (this.bgMusic) {
+            this.bgMusic.volume = muted ? 0 : 1.0;
+        }
+
         if (muted) {
+            // Stop scheduled fallback notes while muted, but remember which
+            // music source should be resumed when sound is turned back on.
             this.stopFallbackBirthdayTune();
-        } else if (this.started && this.bgMusic?.error) {
+            return;
+        }
+
+        if (!this.started) return;
+
+        if (this.usingFallback || this.bgMusic?.error) {
+            this.usingFallback = true;
             this.startFallbackBirthdayTune();
+            return;
+        }
+
+        // If the real track was paused unexpectedly, resume it on unmute.
+        if (this.bgMusic?.paused) {
+            this.bgMusic.play().catch(() => {
+                this.usingFallback = true;
+                this.startFallbackBirthdayTune();
+            });
         }
     }
     playEffect(type: SoundEffectType, volume = 0.4) {
