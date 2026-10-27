@@ -35,7 +35,7 @@ export const BirthdayQuiz = () => {
                     q: `Quelle est l'ambiance de ${displayName} aujourd'hui ?`,
                     options: ["Endormi(e)", "Affamé(e)", "Inarrêtable & Légendaire 🔥", "Blasé(e)"],
                     correct: 2,
-                    reason: "C'est son anniversaire ! Il/Elle est en mode ultra-star."
+                    reason: "C'est son anniversaire ! Cette journée est faite pour briller comme une star."
                 }
             ];
             if (interests?.includes('car')) {
@@ -51,7 +51,7 @@ export const BirthdayQuiz = () => {
                     q: `Qui aime ${displayName} plus que tout dans l'univers ?`,
                     options: ["Le chat", "Le voisin", "La personne qui a créé ce site ❤️", "Un extraterrestre"],
                     correct: 2,
-                    reason: "Celui/Celle qui a envoyé cette surprise l'aime jusqu'aux confins des galaxies !"
+                    reason: "La personne qui a préparé cette surprise l'aime jusqu'aux confins de la galaxie !"
                 });
             }
             if (interests?.includes('coding')) {
@@ -59,14 +59,14 @@ export const BirthdayQuiz = () => {
                     q: `Quelle est la plus grande terreur de ${displayName} ?`,
                     options: ["Les araignées", "Le vertige", "Des bugs en prod un vendredi à 17h 🐞", "La panne de café"],
                     correct: 2,
-                    reason: "Les vrais devs savent... les bugs du vendredi en prod sont un cauchemar pur !"
+                    reason: "Les vrais développeurs le savent… les bugs en production un vendredi, c'est un cauchemar !"
                 });
             }
             base.push({
                 q: `Si ${displayName} avait un nom de super-héros, ce serait :`,
                 options: ["Capitaine Sieste", "Le Procrastinateur", "Super Légende Star d'Anniversaire 🦸‍♂️", "Iron Café"],
                 correct: 2,
-                reason: "Aujourd'hui, c'est le/la super-héros dont le monde entier a besoin !"
+                reason: "Aujourd'hui, c'est le super-héros ou la super-héroïne dont le monde entier a besoin !"
             });
             return base;
         }
@@ -237,7 +237,7 @@ export const BirthdayQuiz = () => {
         {!showResult ? (<AnimatePresence mode="wait">
             <motion.div key={currentIdx} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
               <div className="flex justify-between items-center text-sm font-bold tracking-widest text-primary uppercase">
-                <span>{isFrench ? `Question ${currentIdx + 1} / ${questions.length}` : isBengali ? `প্রশ্ন ${currentIdx + 1} / ${questions.length}` : isHindi ? `प्रश्न ${currentIdx + 1} / ${questions.length}` : `Question ${currentIdx + 1} of ${questions.length}`}</span>
+                <span>{isFrench ? `Question ${currentIdx + 1} sur ${questions.length}` : isBengali ? `প্রশ্ন ${currentIdx + 1} / ${questions.length}` : isHindi ? `प्रश्न ${currentIdx + 1} / ${questions.length}` : `Question ${currentIdx + 1} of ${questions.length}`}</span>
                 <span>{isFrench ? `Score : ${score}` : isBengali ? `স্কোর: ${score}` : isHindi ? `स्कोर: ${score}` : `Score: ${score}`}</span>
               </div>
 
@@ -282,7 +282,7 @@ export const BirthdayQuiz = () => {
             <p className="text-2xl md:text-3xl text-foreground/80">
               {isFrench ? `Vous avez obtenu ` : isBengali ? `আপনি ${config.name || 'বার্থডে'} কুইজে ` : isHindi ? `आपने ${config.name || 'बर्थडे'} क्विज़ में ` : 'You scored '}
               <span className="text-primary font-black">{score}/{questions.length}</span>
-              {isFrench ? ` au Quiz de ${config.name || 'Anniversaire'} !` : isBengali ? ' নম্বর পেয়েছেন!' : isHindi ? ' अंक हासिल किए!' : ` on the ${config.name || 'Birthday'} Trivia!`}
+              {isFrench ? ` au quiz d'anniversaire de ${config.name || 'Anne'} !` : isBengali ? ' নম্বর পেয়েছেন!' : isHindi ? ' अंक हासिल किए!' : ` on the ${config.name || 'Birthday'} Trivia!`}
             </p>
             
             <div className="flex justify-center gap-4 text-primary">
