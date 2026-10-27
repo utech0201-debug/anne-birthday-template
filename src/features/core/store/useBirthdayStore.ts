@@ -113,13 +113,13 @@ const parseEnvJson = <T>(value: unknown): T | null => {
         return null;
     }
 };
-const envName = parseEnvString(import.meta.env.VITE_BIRTHDAY_NAME, import.meta.env.VITE_USER_NAME);
+const envName = parseEnvString(import.meta.env.VITE_BIRTHDAY_NAME, import.meta.env.VITE_USER_NAME) || 'Anne';
 const rawRel = parseEnvString(
     import.meta.env.VITE_BIRTHDAY_RELATIONSHIP,
     import.meta.env.VITE_RELATIONSHIP,
     import.meta.env.VITE_THEME,
     import.meta.env.VITE_ROLE
-).toLowerCase();
+).toLowerCase() || 'partner';
 
 const envRelationship: RelationshipType =
     rawRel.includes('partner') || rawRel.includes('love') || rawRel.includes('romantic') || rawRel.includes('girlfriend') || rawRel.includes('boyfriend') || rawRel.includes('wife') || rawRel.includes('husband') || rawRel.includes('soulmate') || rawRel.includes('crush') || rawRel === 'gf' || rawRel === 'bf' ? 'partner' :
@@ -145,14 +145,14 @@ const rawGender = parseEnvString(import.meta.env.VITE_BIRTHDAY_GENDER, import.me
 const envGender: GenderType =
     rawGender.includes('female') || rawGender.includes('girl') || rawGender.includes('woman') || rawGender.includes('she') || rawGender.includes('her') ? 'female' :
     rawGender.includes('male') || rawGender.includes('boy') || rawGender.includes('man') || rawGender.includes('he') || rawGender.includes('him') ? 'male' :
-    'other';
+    'female';
 
 const envColor = parseEnvString(import.meta.env.VITE_BIRTHDAY_COLOR, import.meta.env.VITE_THEME_COLOR, import.meta.env.VITE_FAVORITE_COLOR) ||
     (envRelationship === 'partner' ? '#FF2A6D' : envRelationship === 'friend' ? '#00D2FF' : '#FF6B6B');
-const envMessage = parseEnvString(import.meta.env.VITE_BIRTHDAY_CUSTOM_MESSAGE, import.meta.env.VITE_CUSTOM_MESSAGE);
-const envSenderName = parseEnvString(import.meta.env.VITE_BIRTHDAY_WISHER_NAME, import.meta.env.VITE_WISHER_NAME);
-const envAge = parseEnvNumber(import.meta.env.VITE_BIRTHDAY_AGE, null);
-let envDate: Date | null = null;
+const envMessage = parseEnvString(import.meta.env.VITE_BIRTHDAY_CUSTOM_MESSAGE, import.meta.env.VITE_CUSTOM_MESSAGE) || 'Joyeux 19e anniversaire, mon cœur ❤️ Happy 19th birthday, my love. — Oscar';
+const envSenderName = parseEnvString(import.meta.env.VITE_BIRTHDAY_WISHER_NAME, import.meta.env.VITE_WISHER_NAME) || 'Oscar';
+const envAge = parseEnvNumber(import.meta.env.VITE_BIRTHDAY_AGE, 19);
+let envDate: Date | null = new Date('2026-10-29T00:00:00');
 try {
     if (import.meta.env.VITE_BIRTHDAY_DATE) {
         const cleanDate = import.meta.env.VITE_BIRTHDAY_DATE.replace('TH', 'T');
@@ -178,8 +178,8 @@ const envVideos = [
     import.meta.env.VITE_VIDEO_2,
     import.meta.env.VITE_VIDEO_3,
 ].map(parseEnvString).filter(Boolean) as string[];
-const envLetterTitle = parseEnvString(import.meta.env.VITE_BIRTHDAY_LETTER_TITLE, import.meta.env.VITE_CARD_TITLE_SURPRISE);
-const envLetterOverride = parseEnvString(import.meta.env.VITE_BIRTHDAY_LETTER_OVERRIDE).replace(/\\n/g, '\n');
+const envLetterTitle = parseEnvString(import.meta.env.VITE_BIRTHDAY_LETTER_TITLE, import.meta.env.VITE_CARD_TITLE_SURPRISE) || 'Pour mon amour, Anne ❤️';
+const envLetterOverride = parseEnvString(import.meta.env.VITE_BIRTHDAY_LETTER_OVERRIDE).replace(/\\n/g, '\n') || 'Mon amour Anne,\n\nJoyeux 19e anniversaire ! ❤️ Aujourd’hui, je célèbre la merveilleuse personne que tu es. Merci pour tes sourires, ta tendresse et tous ces petits moments qui rendent nos journées spéciales. Je te souhaite une année remplie de paix, de joie, de belles réussites et de rêves qui deviennent réalité.\n\nHappy 19th birthday, my love. I hope this new chapter brings you happiness, confidence, beautiful opportunities, and countless reasons to smile. No matter the distance between us, you have a special place in my heart.\n\nAvec tout mon amour,\nOscar ❤️';
 const envShowCake = parseEnvBoolean(import.meta.env.VITE_SHOW_CAKE_SECTION, true);
 const envShowPhotos = parseEnvBoolean(import.meta.env.VITE_SHOW_PHOTO_SECTION ?? import.meta.env.VITE_SHOW_PHOTOS_SECTION, true);
 const envShowQuiz = parseEnvBoolean(import.meta.env.VITE_SHOW_QUIZ_SECTION, true);
@@ -194,7 +194,7 @@ const envReducedMotion = import.meta.env.VITE_REDUCED_MOTION !== undefined
 const envSoundEffects = import.meta.env.VITE_SOUND_EFFECTS !== undefined
     ? parseEnvBoolean(import.meta.env.VITE_SOUND_EFFECTS, true)
     : true;
-const rawLanguage = parseEnvString(import.meta.env.VITE_LANGUAGE, import.meta.env.VITE_LANG).toLowerCase();
+const rawLanguage = parseEnvString(import.meta.env.VITE_LANGUAGE, import.meta.env.VITE_LANG).toLowerCase() || 'fr';
 const envLanguage: 'en' | 'hi' | 'bn' | 'fr' =
     rawLanguage === 'hi' || rawLanguage === 'hindi' || rawLanguage === 'in'
         ? 'hi'
