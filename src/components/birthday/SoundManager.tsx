@@ -28,12 +28,14 @@ class AudioManager {
     pauseMusic() {
         this.started = false;
         this.bgMusic?.pause();
-        if (this.fallbackTimer) {
-            clearTimeout(this.fallbackTimer);
-            this.fallbackTimer = null;
+        this.stopFallbackBirthdayTune();
+
+        // Close the fallback context so already-scheduled notes cannot resume
+        // on top of a newly started tune when the user presses Play again.
+        if (this.fallbackContext) {
+            void this.fallbackContext.close().catch(() => {});
+            this.fallbackContext = null;
         }
-        this.fallbackPlaying = false;
-        if (this.fallbackContext?.state === "running") void this.fallbackContext.suspend();
     }
 
     start() {
