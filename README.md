@@ -1,3 +1,32 @@
+# Anne’s Birthday Surprise 💗
+
+A romantic, interactive birthday experience prepared by Oscar for Anne’s 19th birthday on **29 October 2026**. The experience opens in French by default and includes a bilingual birthday message in French and English, animated celebrations, and the original Birthday Bloom interactive features.
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+To verify the project before deployment:
+
+```bash
+npm run verify
+```
+
+## Personalization
+
+The repository defaults are personalized in `src/features/core/store/useBirthdayStore.ts`. Vite environment variables can override those defaults; use `.env.local` locally or Vercel Project Settings → Environment Variables for deployment. Never commit private credentials or secrets.
+
+Anne’s personal photos have **not** been added yet. Add only images she is comfortable having included in the birthday website; the app supports `VITE_PHOTOS` or `VITE_PHOTO_1` through `VITE_PHOTO_6`, plus `VITE_PHOTO_CAPTIONS`.
+
+## Credits and license
+
+This project is a personalized fork of [Birthday Bloom by Naboraj Sarkar](https://github.com/naborajs/birthday-bloom), used under the included MIT License. The original license and upstream attribution are retained.
+
+---
+
 # 🌸 Birthday Bloom — Configurable Birthday Landing Page v3.4.0
 
 <div align="center">
