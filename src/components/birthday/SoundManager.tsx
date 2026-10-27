@@ -22,6 +22,7 @@ class AudioManager {
     private poolCursors: Partial<Record<SoundEffectType, number>> = {};
     private lastTypeClickTime = 0;
     private fallbackContext: AudioContext | null = null;
+    private fallbackMasterGain: GainNode | null = null;
     private fallbackTimer: ReturnType<typeof setTimeout> | null = null;
     private fallbackPlaying = false;
     private usingFallback = false;
@@ -106,15 +107,23 @@ class AudioManager {
     }
 
     private startFallbackBirthdayTune() {
-        if (!this.started || this.muted || this.fallbackPlaying) return;
+        if (!this.started || this.fallbackPlaying) return;
         // Never mix the synthesized fallback with the real music track.
         if (this.bgMusic && !this.bgMusic.paused) this.bgMusic.pause();
         try {
             const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
             if (!AudioContextClass) return;
-            if (!this.fallbackContext) this.fallbackContext = new AudioContextClass();
+            if (!this.fallbackContext) {
+                this.fallbackContext = new AudioContextClass();
+                this.fallbackMasterGain = this.fallbackContext.createGain();
+                this.fallbackMasterGain.gain.value = this.muted ? 0 : 0.85;
+                this.fallbackMasterGain.connect(this.fallbackContext.destination);
+            }
             const ctx = this.fallbackContext;
             if (ctx.state === "suspended") void ctx.resume();
+            if (this.fallbackMasterGain) {
+                this.fallbackMasterGain.gain.setTargetAtTime(this.muted ? 0 : 0.85, ctx.currentTime, 0.015);
+            }
 
             this.usingFallback = true;
             this.fallbackPlaying = true;
@@ -132,18 +141,19 @@ class AudioManager {
                 oscillator.type = "triangle";
                 oscillator.frequency.value = frequency;
                 gain.gain.setValueAtTime(0.0001, at);
-                gain.gain.linearRampToValueAtTime(this.muted ? 0 : 0.85, at + .025);
-                gain.gain.setValueAtTime(this.muted ? 0 : 0.85, at + Math.max(.03, duration - .04));
+                gain.gain.linearRampToValueAtTime(1, at + .025);
+                gain.gain.setValueAtTime(1, at + Math.max(.03, duration - .04));
                 gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
                 oscillator.connect(gain);
-                gain.connect(ctx.destination);
+                if (this.fallbackMasterGain) gain.connect(this.fallbackMasterGain);
+                else gain.connect(ctx.destination);
                 oscillator.start(at);
                 oscillator.stop(at + duration);
                 at += duration + .035;
             }
             this.fallbackTimer = setTimeout(() => {
                 this.fallbackPlaying = false;
-                if (this.started && !this.muted) this.startFallbackBirthdayTune();
+                if (this.started) this.startFallbackBirthdayTune();
             }, Math.max(100, (at - ctx.currentTime) * 1000));
         } catch (e) {
             this.fallbackPlaying = false;
