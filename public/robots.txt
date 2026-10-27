@@ -1,12 +1,12 @@
-# Birthday Bloom - Advanced Robots Rules & Crawler Directives
-# https://birthday-bloom.vercel.app
+# Anne’s Birthday Surprise - Crawler Directives
+# https://anne-birthday-surprise.vercel.app
 # Host definition
-Host: https://birthday-bloom.vercel.app
+Host: https://anne-birthday-surprise.vercel.app
 
 # Open Source & LLM Search Engine Ingestion Map:
-# Master LLM Map: https://birthday-bloom.vercel.app/llms.txt
-# Comprehensive LLM Reference: https://birthday-bloom.vercel.app/llms-full.txt
-# Source Repository: https://github.com/naborajs/birthday-bloom
+# Master LLM Map: https://anne-birthday-surprise.vercel.app/llms.txt
+# Comprehensive LLM Reference: https://anne-birthday-surprise.vercel.app/llms-full.txt
+# Source Repository: https://github.com/utech0201-debug/anne-birthday-template
 
 # Default rule for all search engine bots
 User-agent: *
@@ -121,4 +121,4 @@ User-agent: PetalBot
 Disallow: /
 
 # XML Sitemap Specification
-Sitemap: https://birthday-bloom.vercel.app/sitemap.xml
+Sitemap: https://anne-birthday-surprise.vercel.app/sitemap.xml
