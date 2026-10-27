@@ -23,8 +23,14 @@ class AudioManager {
     private lastTypeClickTime = 0;
 
     start() {
-        if (this.started)
+        if (this.started) {
+            if (this.bgMusic?.paused) {
+                this.bgMusic.play().catch(() => {
+                    console.debug("Birthday music is waiting for a user interaction.");
+                });
+            }
             return;
+        }
         this.started = true;
         this.playBgMusic();
     }
@@ -32,7 +38,8 @@ class AudioManager {
         try {
             this.bgMusic = new Audio(AUDIO_URLS.bgMusic);
             this.bgMusic.loop = true;
-            this.bgMusic.volume = this.muted ? 0 : 0.25;
+            this.bgMusic.preload = "auto";
+            this.bgMusic.volume = this.muted ? 0 : 1.0;
             this.bgMusic.play().catch(() => {
                 const playOnInteraction = () => {
                     this.bgMusic?.play().catch(() => {});
@@ -83,7 +90,7 @@ class AudioManager {
     setMuted(muted: boolean) {
         this.muted = muted;
         if (this.bgMusic) {
-            this.bgMusic.volume = muted ? 0 : 0.25;
+            this.bgMusic.volume = muted ? 0 : 1.0;
         }
     }
     playEffect(type: SoundEffectType, volume = 0.4) {
