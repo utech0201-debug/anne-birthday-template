@@ -35,7 +35,7 @@ describe("SoundToggle & BirthdayQuiz Interaction Suite", () => {
         it("renders with default mute label and unmuted icon", () => {
             render(<SoundToggle />);
             const button = screen.getByRole("button");
-            expect(button).toHaveAttribute("aria-label", "Mute Audio");
+            expect(button).toHaveAttribute("aria-label", "Couper le son");
         });
 
         it("toggles to muted state and sets volume to 0 on click", () => {
@@ -44,11 +44,11 @@ describe("SoundToggle & BirthdayQuiz Interaction Suite", () => {
 
             fireEvent.click(button);
             expect(mockSetBgVolume).toHaveBeenCalledWith(0);
-            expect(button).toHaveAttribute("aria-label", "Unmute Audio");
+            expect(button).toHaveAttribute("aria-label", "Activer le son");
 
             fireEvent.click(button);
             expect(mockSetBgVolume).toHaveBeenCalledWith(0.25);
-            expect(button).toHaveAttribute("aria-label", "Mute Audio");
+            expect(button).toHaveAttribute("aria-label", "Couper le son");
         });
     });
 
