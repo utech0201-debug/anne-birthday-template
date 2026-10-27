@@ -32,7 +32,8 @@ const Index = () => {
     const [fireworksRunKey, setFireworksRunKey] = useState(0);
     const isMobile = useIsMobile();
     const config = useBirthdayStore((state) => state.config);
-    const { t } = useTranslation();
+    const { t, language } = useTranslation();
+    const setLanguage = useBirthdayStore((state) => state.setLanguage);
     useDynamicTheme();
     useDynamicSEO(config);
 
@@ -56,6 +57,16 @@ const Index = () => {
 
       {/* Vignette overlay */}
       <div className="vignette"/>
+
+      {/* Site-wide language switch shared by every scene and section. */}
+      <button
+        type="button"
+        onClick={() => setLanguage(language === "fr" ? "en" : "fr")}
+        aria-label={language === "fr" ? "Switch website language to English" : "Passer le site en français"}
+        className="fixed top-5 right-5 z-[80] rounded-full border border-white/20 bg-black/45 px-4 py-2 text-sm font-semibold text-white shadow-lg backdrop-blur-xl transition hover:bg-black/65"
+      >
+        {language === "fr" ? "🇬🇧 English" : "🇫🇷 Français"}
+      </button>
 
       {/* Skip button */}
       {phase !== "main" && phase !== "unlock" && config.showSkipButton !== false && (<button onClick={() => {
