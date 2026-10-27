@@ -288,27 +288,27 @@ export const MainBirthday = () => {
             <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }} transition={{ duration: 0.35 }} className="relative w-full max-w-3xl rounded-[2.5rem] border border-white/10 bg-black/90 p-6 sm:p-8 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] max-h-[calc(100vh-4rem)] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
               {giftStage === 'party' ? (<div className="flex flex-col gap-6 text-center min-h-[42vh] justify-center">
                   <div className="text-6xl">🎂🎉✨</div>
-                  <h3 className="text-4xl md:text-6xl font-black text-white">{isBengali ? "পার্টি সারপ্রাইজের আমেজ তৈরি করছে!" : isHindi ? "पार्टी सरप्राइज का माहौल बना रही है!" : "The party is teasing the surprise!"}</h3>
+                  <h3 className="text-4xl md:text-6xl font-black text-white">{isFrench ? "La fête fait monter le suspense ! 🎉" : isBengali ? "পার্টি সারপ্রাইজের আমেজ তৈরি করছে!" : isHindi ? "पार्टी सरप्राइज का माहौल बना रही है!" : "The party is teasing the surprise!"}</h3>
                   <p className="text-lg md:text-xl text-white/85 max-w-xl mx-auto leading-relaxed">
-                    {isBengali ? "চারপাশে আনন্দের কোলাহল, আলো জ্বলছে এবং উদযাপন শুরু হতে যাচ্ছে। উপহার প্রকাশের আগে পার্টির আনন্দ উপভোগ করুন।" : isHindi ? "भीड़ चीयर कर रही है, लाइट्स चमक रही हैं और जश्न शुरू होने वाला है। उपहार का राज खुलने से पहले पार्टी का मज़ा लें।" : "The crowd is cheering, the lights are flashing, and the celebration message is made to stay visible on every screen. Watch the party tease before the gift reveal arrives."}
+                    {isFrench ? "Tout le monde applaudit, les lumières brillent et la fête est sur le point de commencer. Profite de ce moment avant de découvrir ton cadeau." : isBengali ? "চারপাশে আনন্দের কোলাহল, আলো জ্বলছে এবং উদযাপন শুরু হতে যাচ্ছে। উপহার প্রকাশের আগে পার্টির আনন্দ উপভোগ করুন।" : isHindi ? "भीड़ चीयर कर रही है, लाइट्स चमक रही हैं और जश्न शुरू होने वाला है। उपहार का राज खुलने से पहले पार्टी का मज़ा लें।" : "The crowd is cheering, the lights are flashing, and the celebration is about to begin. Enjoy the party before the gift reveal."}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
                     {[
-                    { icon: '🎶', label: isBengali ? 'উচ্চাঙ্গ সংগীত' : isHindi ? 'संगीत तेज' : 'Music builds' },
-                    { icon: '🔥', label: isBengali ? 'উন্মাদ আমেজ' : isHindi ? 'जोश भरपूर' : 'Crowd hype' },
-                    { icon: '✨', label: isBengali ? 'উপহারের রহস্য' : isHindi ? 'तोहफे का राज' : 'Gift tease' }
+                    { icon: '🎶', label: isFrench ? 'La musique monte' : isBengali ? 'উচ্চাঙ্গ সংগীত' : isHindi ? 'संगीत तेज' : 'Music builds' },
+                    { icon: '🔥', label: isFrench ? 'Ambiance électrique' : isBengali ? 'উন্মাদ আমেজ' : isHindi ? 'जोश भरपूर' : 'Crowd hype' },
+                    { icon: '✨', label: isFrench ? 'Mystère du cadeau' : isBengali ? 'উপহারের রহস্য' : isHindi ? 'तोहफे का राज' : 'Gift tease' }
                 ].map((item) => (<div key={item.label} className="rounded-3xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80">
                         <span className="mr-2">{item.icon}</span>{item.label}
                       </div>))}
                   </div>
                   <div className="mx-auto inline-flex rounded-full bg-white/10 px-6 py-4 text-2xl font-semibold text-white shadow-[0_20px_60px_-30px_rgba(255,255,255,0.4)]">
-                    {isBengali ? "ধামাকা মুড অ্যাক্টিভেটেড 💥" : isHindi ? "धमाकेदार मूड एक्टिवेटेड 💥" : "Pataka mood activated."}
+                    {isFrench ? "Ambiance explosive activée 💥" : isBengali ? "ধামাকা মুড অ্যাক্টিভেটেড 💥" : isHindi ? "धमाकेदार मूड एक्टिवेटेड 💥" : "Party mode activated 💥"}
                   </div>
                 </div>) : (<div className="flex flex-col gap-6 text-center">
                   <div className="text-5xl">🎉</div>
-                  <h3 className="text-4xl md:text-6xl font-black text-white">{isBengali ? "সারপ্রাইজ আনলক হয়েছে!" : isHindi ? "सरप्राइज अनलॉक हुआ!" : "Surprise Unlocked!"}</h3>
+                  <h3 className="text-4xl md:text-6xl font-black text-white">{isFrench ? "Surprise dévoilée !" : isBengali ? "সারপ্রাইজ আনলক হয়েছে!" : isHindi ? "सरप्राइज अनलॉक हुआ!" : "Surprise unlocked!"}</h3>
                   <p className="text-lg md:text-xl text-foreground/70 max-w-2xl mx-auto">
-                    {isBengali ? "প্রথমে পার্টি শুরু হলো এবং এখন উপহার এলো। আপনার গোপন কোডটি আপনার সম্পর্ক এবং অনেক ভালোবাসা দিয়ে তৈরি।" : isHindi ? "पहले पार्टी शुरू हुई और अब तोहफा आ गया। आपका गुप्त कोड आपके रिश्ते, आपकी पसंद और ढेर सारे प्यार से बना है।" : "First the party sparkled, then the gift arrived. Your secret code is built from your relationship theme, your favorite interests, and a little playful mischief."}
+                    {isFrench ? "La fête a commencé, et voici maintenant ton cadeau ! Ton code secret a été créé selon votre histoire, tes centres d’intérêt et beaucoup d’amour." : isBengali ? "প্রথমে পার্টি শুরু হলো এবং এখন উপহার এলো। আপনার গোপন কোডটি আপনার সম্পর্ক এবং অনেক ভালোবাসা দিয়ে তৈরি।" : isHindi ? "पहले पार्टी शुरू हुई और अब तोहफा आ गया। आपका गुप्त कोड आपके रिश्ते, आपकी पसंद और ढेर सारे प्यार से बना है।" : "First the party sparkled, then the gift arrived. Your secret code is built from your relationship theme, your favorite interests, and a little playful mischief."}
                   </p>
                   <div className="mx-auto inline-flex rounded-full bg-primary/10 px-6 py-4 text-2xl font-semibold text-primary shadow-[0_20px_60px_-30px_rgba(255,255,255,0.4)]">
                     {specialCode}
