@@ -37,27 +37,32 @@ class AudioManager {
     }
 
     start() {
-        if (this.started) {
-            if (this.bgMusic?.paused) {
-                this.bgMusic.play().catch(() => {
-                    console.debug("Birthday music is waiting for a user interaction.");
-                });
+        this.started = true;
+        if (this.fallbackContext?.state === "suspended" && this.fallbackPlaying) {
+            void this.fallbackContext.resume();
+        }
+        if (this.bgMusic) {
+            if (this.bgMusic.paused && this.bgMusic.error === null) {
+                this.bgMusic.play().catch(() => this.startFallbackBirthdayTune());
             }
             return;
         }
-        this.started = true;
         this.playBgMusic();
     }
     private playBgMusic() {
         try {
-            this.bgMusic = new Audio(AUDIO_URLS.bgMusic);
-            this.bgMusic.loop = true;
-            this.bgMusic.preload = "auto";
+            if (!this.bgMusic) {
+                this.bgMusic = new Audio(AUDIO_URLS.bgMusic);
+                this.bgMusic.loop = true;
+                this.bgMusic.preload = "auto";
+                this.bgMusic.onerror = () => this.startFallbackBirthdayTune();
+            }
             this.bgMusic.volume = this.muted ? 0 : 1.0;
-            this.bgMusic.onerror = () => this.startFallbackBirthdayTune();
-            this.bgMusic.play().catch(() => {
-                // The audio file may be blocked or unavailable. Use a built-in tune
-                // so the birthday page still has music without relying on another host.
+            this.bgMusic.play().then(() => {
+                // If the external track starts successfully, stop any fallback tune.
+                this.stopFallbackBirthdayTune();
+            }).catch(() => {
+                // Use the built-in tune only when the external track cannot play.
                 this.startFallbackBirthdayTune();
             });
         }
@@ -66,9 +71,19 @@ class AudioManager {
             this.startFallbackBirthdayTune();
         }
     }
+    private stopFallbackBirthdayTune() {
+        if (this.fallbackTimer) {
+            clearTimeout(this.fallbackTimer);
+            this.fallbackTimer = null;
+        }
+        this.fallbackPlaying = false;
+        if (this.fallbackContext?.state === "running") void this.fallbackContext.suspend();
+    }
 
     private startFallbackBirthdayTune() {
-        if (this.muted || this.fallbackPlaying) return;
+        if (!this.started || this.muted || this.fallbackPlaying) return;
+        // Never mix the synthesized fallback with the real music track.
+        if (this.bgMusic && !this.bgMusic.paused) this.bgMusic.pause();
         try {
             const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
             if (!AudioContextClass) return;
@@ -142,8 +157,11 @@ class AudioManager {
     }
     setMuted(muted: boolean) {
         this.muted = muted;
-        if (this.bgMusic) {
-            this.bgMusic.volume = muted ? 0 : 1.0;
+        if (this.bgMusic) this.bgMusic.volume = muted ? 0 : 1.0;
+        if (muted) {
+            this.stopFallbackBirthdayTune();
+        } else if (this.started && this.bgMusic?.error) {
+            this.startFallbackBirthdayTune();
         }
     }
     playEffect(type: SoundEffectType, volume = 0.4) {
@@ -195,7 +213,9 @@ class AudioManager {
             clearTimeout(this.fallbackTimer);
             this.fallbackTimer = null;
         }
-        this.fallbackPlaying = false;
+        this.stopFallbackBirthdayTune();
+        this.fallbackContext?.close().catch(() => {});
+        this.fallbackContext = null;
         this.started = false;
     }
 }
