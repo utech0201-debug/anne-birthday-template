@@ -21,6 +21,9 @@ class AudioManager {
     private effectPools: Partial<Record<SoundEffectType, HTMLAudioElement[]>> = {};
     private poolCursors: Partial<Record<SoundEffectType, number>> = {};
     private lastTypeClickTime = 0;
+    private fallbackContext: AudioContext | null = null;
+    private fallbackTimer: ReturnType<typeof setTimeout> | null = null;
+    private fallbackPlaying = false;
 
     start() {
         if (this.started) {
@@ -40,20 +43,59 @@ class AudioManager {
             this.bgMusic.loop = true;
             this.bgMusic.preload = "auto";
             this.bgMusic.volume = this.muted ? 0 : 1.0;
+            this.bgMusic.onerror = () => this.startFallbackBirthdayTune();
             this.bgMusic.play().catch(() => {
-                const playOnInteraction = () => {
-                    this.bgMusic?.play().catch(() => {});
-                    ['click', 'touchstart', 'pointerdown'].forEach((evt) => {
-                        document.removeEventListener(evt, playOnInteraction);
-                    });
-                };
-                ['click', 'touchstart', 'pointerdown'].forEach((evt) => {
-                    document.addEventListener(evt, playOnInteraction, { passive: true });
-                });
+                // The audio file may be blocked or unavailable. Use a built-in tune
+                // so the birthday page still has music without relying on another host.
+                this.startFallbackBirthdayTune();
             });
         }
         catch (e) {
-            console.debug("Autoplay failed or blocked:", e);
+            console.debug("Birthday music failed; starting built-in tune:", e);
+            this.startFallbackBirthdayTune();
+        }
+    }
+
+    private startFallbackBirthdayTune() {
+        if (this.muted || this.fallbackPlaying) return;
+        try {
+            const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+            if (!AudioContextClass) return;
+            if (!this.fallbackContext) this.fallbackContext = new AudioContextClass();
+            const ctx = this.fallbackContext;
+            if (ctx.state === "suspended") void ctx.resume();
+
+            this.fallbackPlaying = true;
+            // Traditional "Happy Birthday" melody, synthesized locally as a fallback.
+            const notes: Array<[number, number]> = [
+                [392, .28], [392, .16], [440, .44], [392, .44], [523.25, .44], [493.88, .8],
+                [392, .28], [392, .16], [440, .44], [392, .44], [587.33, .44], [523.25, .8],
+                [392, .28], [392, .16], [783.99, .44], [659.25, .44], [523.25, .44], [493.88, .44], [440, .8],
+                [698.46, .28], [698.46, .16], [659.25, .44], [523.25, .44], [587.33, .44], [523.25, .9],
+            ];
+            let at = ctx.currentTime + .05;
+            for (const [frequency, duration] of notes) {
+                const oscillator = ctx.createOscillator();
+                const gain = ctx.createGain();
+                oscillator.type = "triangle";
+                oscillator.frequency.value = frequency;
+                gain.gain.setValueAtTime(0.0001, at);
+                gain.gain.linearRampToValueAtTime(this.muted ? 0 : 0.85, at + .025);
+                gain.gain.setValueAtTime(this.muted ? 0 : 0.85, at + Math.max(.03, duration - .04));
+                gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
+                oscillator.connect(gain);
+                gain.connect(ctx.destination);
+                oscillator.start(at);
+                oscillator.stop(at + duration);
+                at += duration + .035;
+            }
+            this.fallbackTimer = setTimeout(() => {
+                this.fallbackPlaying = false;
+                if (this.started && !this.muted) this.startFallbackBirthdayTune();
+            }, Math.max(100, (at - ctx.currentTime) * 1000));
+        } catch (e) {
+            this.fallbackPlaying = false;
+            console.debug("Built-in birthday tune could not start:", e);
         }
     }
     fadeOutBgMusic(duration = 2000) {
@@ -138,6 +180,11 @@ class AudioManager {
         }
         this.bgMusic?.pause();
         this.bgMusic = null;
+        if (this.fallbackTimer) {
+            clearTimeout(this.fallbackTimer);
+            this.fallbackTimer = null;
+        }
+        this.fallbackPlaying = false;
         this.started = false;
     }
 }
